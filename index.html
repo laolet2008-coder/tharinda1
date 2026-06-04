@@ -8,59 +8,151 @@
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
   
   <style>
+    :root {
+      --neon-blue: #00f3ff;
+      --neon-purple: #bc13fe;
+      --bg-dark: #080c16;
+      --panel-bg: rgba(16, 23, 42, 0.75);
+    }
+
     body { 
-      background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+      background-color: var(--bg-dark);
+      /* พื้นหลังตาราง Grid สไตล์ Sci-Fi */
+      background-image: 
+        linear-gradient(rgba(0, 243, 255, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.07) 1px, transparent 1px);
+      background-size: 40px 40px;
+      color: #e2e8f0;
       min-height: 100vh;
-      padding-top: 40px; 
+      padding-top: 50px; 
       font-family: 'Sarabun', sans-serif; 
     }
+
+    /* กล่องการ์ดสไตล์ Glassmorphism */
     .card { 
-      border: none; 
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
+      background: var(--panel-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 243, 255, 0.2);
+      box-shadow: 0 0 40px rgba(0, 243, 255, 0.1); 
       border-radius: 20px;
-      background-color: #ffffff;
+      position: relative;
+      overflow: hidden;
     }
+
+    /* เส้นขอบเรืองแสงด้านบน */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+    }
+
     .header-box {
-      background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
-      color: white;
-      border-radius: 15px;
-      padding: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 20px;
       margin-bottom: 25px;
     }
+
+    .header-title {
+      background: linear-gradient(90deg, #ffffff, var(--neon-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+      letter-spacing: 1px;
+    }
+
     .form-label {
       font-weight: 600;
-      color: #343a40;
+      color: #94a3b8;
       margin-bottom: 8px;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
     }
+
+    /* กล่อง Input สไตล์ Hologram */
     .form-control, .form-select {
-      border-radius: 10px;
-      padding: 10px 15px;
-      border: 1px solid #ced4da;
+      background-color: rgba(0, 0, 0, 0.5) !important;
+      border-radius: 8px;
+      padding: 12px 15px;
+      border: 1px solid rgba(0, 243, 255, 0.2);
+      color: #00f3ff !important;
       transition: all 0.3s ease;
     }
-    .form-control:focus, .form-select:focus {
-      border-color: #0d6efd;
-      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+
+    .form-control::placeholder {
+      color: rgba(255, 255, 255, 0.2) !important;
     }
+
+    .form-control:focus, .form-select:focus {
+      background-color: rgba(0, 0, 0, 0.7) !important;
+      border-color: var(--neon-blue);
+      box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+    }
+
+    /* ปรับแต่ง Dropdown */
+    option {
+      background-color: #0f172a;
+      color: #00f3ff;
+    }
+
+    /* ปุ่มกด Cyberpunk */
     .btn-submit {
-      border-radius: 10px;
-      padding: 12px;
+      background: rgba(0, 243, 255, 0.1);
+      border: 1px solid var(--neon-blue);
+      color: var(--neon-blue);
+      border-radius: 8px;
+      padding: 14px;
       font-size: 1.1rem;
       font-weight: 600;
+      letter-spacing: 1px;
       transition: all 0.3s ease;
+      text-transform: uppercase;
     }
-    .badge-status {
-      font-size: 0.9rem;
-      padding: 6px 12px;
-      border-radius: 20px;
+
+    .btn-submit:hover {
+      background: var(--neon-blue);
+      color: #000;
+      box-shadow: 0 0 25px rgba(0, 243, 255, 0.6);
+      transform: translateY(-2px);
     }
-    /* สไตล์สำหรับเครดิตผู้พัฒนาข้างล่างสุด */
+
+    .btn-submit:disabled {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.2);
+      color: #888;
+      box-shadow: none;
+    }
+
+    /* กล่อง Alert */
+    .alert {
+      border: none;
+      backdrop-filter: blur(5px);
+    }
+    .alert-success {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid #10b981;
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+    }
+    .alert-danger {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid #ef4444;
+      box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+    }
+
+    /* เครดิตผู้พัฒนา */
     .developer-credit {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 25px;
       font-size: 0.9rem;
-      color: #6c757d;
+      color: #475569;
       line-height: 1.6;
+    }
+    .developer-credit strong {
+      color: var(--neon-purple);
+      text-shadow: 0 0 10px rgba(188, 19, 254, 0.4);
+      letter-spacing: 0.5px;
     }
   </style>
 </head>
@@ -68,56 +160,66 @@
 
   <div class="container mb-5">
     <div class="row justify-content-center">
-      <div class="col-md-7 col-lg-6">
+      <div class="col-md-8 col-lg-6">
         <div class="card p-4 p-sm-5">
           
-          <div class="header-box text-center shadow-sm">
-            <h3 class="mb-1 fw-bold">📱 ระบบบันทึกการเบิก-คืนโทรศัพท์</h3>
-            <p class="mb-0 opacity-75 text-sm">โรงเรียน / สถานศึกษา (Student Phone Log)</p>
+          <div class="header-box text-center">
+            <h3 class="mb-2 fw-bold header-title">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-phone mb-1" viewBox="0 0 16 16">
+                <path d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h6zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H5z"/>
+                <path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+              </svg> 
+              ระบบเบิก-คืนโทรศัพท์
+            </h3>
+            <p class="mb-0 text-sm" style="color: #64748b;">[ STUDENT PHONE LOG SYSTEM ]</p>
           </div>
           
           <form id="phoneForm">
-            <div class="mb-3">
-              <label class="form-label">ต้องการทำรายการใด?</label>
-              <select class="form-select border-primary fw-bold" id="type" onchange="toggleFields()" required>
-                <option value="เบิก (Borrow)">🟢 เบิกโทรศัพท์ (Borrow)</option>
-                <option value="คืน (Return)">🔵 คืนโทรศัพท์ (Return)</option>
+            <div class="mb-4">
+              <label class="form-label">▣ ประเภทรายการ (TRANSACTION TYPE)</label>
+              <select class="form-select fw-bold" id="type" onchange="toggleFields()" required>
+                <option value="เบิก (Borrow)">🟢 เบิกโทรศัพท์ (BORROW)</option>
+                <option value="คืน (Return)">🔵 คืนโทรศัพท์ (RETURN)</option>
               </select>
             </div>
 
-            <div class="mb-3">
-              <label class="form-label">หมายเลขเครื่อง / Serial Number (S/N):</label>
+            <div class="mb-4">
+              <label class="form-label">▣ หมายเลขเครื่อง / SERIAL NUMBER (S/N)</label>
               <input type="text" class="form-control" id="sn" placeholder="กรอก S/N หรือรหัสตู้/เครื่อง" required>
             </div>
 
             <div id="borrowFields">
               <div class="row">
-                <div class="col-sm-6 mb-3">
-                  <label class="form-label">รหัสนักเรียน:</label>
+                <div class="col-sm-6 mb-4">
+                  <label class="form-label">▣ รหัสนักเรียน (ID)</label>
                   <input type="text" class="form-control" id="studentId" placeholder="เช่น 59XXX">
                 </div>
-                <div class="col-sm-6 mb-3">
-                  <label class="form-label">ชั้น / ห้อง:</label>
+                <div class="col-sm-6 mb-4">
+                  <label class="form-label">▣ ชั้น / ห้อง (CLASS)</label>
                   <input type="text" class="form-control" id="studentClass" placeholder="เช่น ม.6/1, ม.3/2">
                 </div>
               </div>
-              <div class="mb-3">
-                <label class="form-label">ชื่อ-นามสกุล นักเรียน:</label>
+              <div class="mb-4">
+                <label class="form-label">▣ ชื่อ-นามสกุล (FULL NAME)</label>
                 <input type="text" class="form-control" id="name" placeholder="เด็กชาย / เด็กหญิง / นาย / นางสาว">
               </div>
-              <div class="mb-3">
-                <label class="form-label">รุ่นโทรศัพท์:</label>
+              <div class="mb-4">
+                <label class="form-label">▣ รุ่นโทรศัพท์ (DEVICE MODEL)</label>
                 <input type="text" class="form-control" id="model" placeholder="เช่น iPhone 15, iPad Air, Samsung">
               </div>
             </div>
 
-            <div class="mb-4">
-              <label class="form-label">หมายเหตุ / สภาพเครื่องเพิ่มเติม:</label>
+            <div class="mb-5">
+              <label class="form-label">▣ หมายเหตุ (REMARKS / STATUS)</label>
               <input type="text" class="form-control" id="note" placeholder="เช่น หน้าจอมีรอย, ฝากช่วงสอบ, หรือระบุวัตถุประสงค์">
             </div>
 
-            <button type="submit" class="btn btn-primary w-100 btn-submit shadow-sm" id="submitBtn">
-              💾 บันทึกข้อมูลลง Google Sheet
+            <button type="submit" class="btn w-100 btn-submit" id="submitBtn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-hdd-network mb-1 me-1" viewBox="0 0 16 16">
+                <path d="M4.5 5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zM3 4.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
+                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H8.5v3a1.5 1.5 0 0 1 1.5 1.5h5.5a.5.5 0 0 1 0 1H10A1.5 1.5 0 0 1 8.5 14h-1A1.5 1.5 0 0 1 6 12.5H.5a.5.5 0 0 1 0-1H6A1.5 1.5 0 0 1 7.5 10V7H2a2 2 0 0 1-2-2V4zm1 0v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1zm6 7.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5z"/>
+              </svg>
+              บันทึกข้อมูลลงฐานข้อมูล
             </button>
           </form>
 
@@ -125,9 +227,9 @@
           
         </div>
 
-        <!-- เพิ่มเครดิตผู้พัฒนาไว้ด้านล่างสุดของกล่อง -->
         <div class="developer-credit">
-          พัฒนาโดย: <strong>นางสาวฐรินดา เหล่าเลิศ</strong><br>
+          DEVELOPED BY<br>
+          <strong>นางสาวฐรินดา เหล่าเลิศ</strong><br>
           โรงเรียนราชประชานุเคราะห์ 29 ชั้น ม.6
         </div>
 
@@ -177,7 +279,7 @@
       
       // ล็อกปุ่มกดชั่วคราวเพื่อป้องกันการกดซ้ำ
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '⏳ กำลังส่งข้อมูลเข้าระบบ...';
+      submitBtn.innerHTML = '⏳ ซิงค์ข้อมูลเข้าสู่ระบบ...';
       alertBox.classList.add('d-none');
 
       // ดึงข้อมูลจาก Inputs
@@ -191,7 +293,7 @@
         note: document.getElementById('note').value
       };
 
-      // แปลงข้อมูลเป็น URLSearchParams เพื่อส่งแบบ Form Data (เสถียรที่สุดสำหรับ Apps Script Web App)
+      // แปลงข้อมูลเป็น URLSearchParams เพื่อส่งแบบ Form Data
       const formData = new URLSearchParams();
       for (const key in data) {
         formData.append(key, data[key]);
@@ -208,24 +310,24 @@
         
         if (result.status === "success") {
           alertBox.classList.add('alert-success');
-          alertBox.innerHTML = '🎉 ' + result.message;
+          alertBox.innerHTML = 'SYSTEM: ' + result.message;
           document.getElementById('phoneForm').reset();
-          toggleFields(); // รีเซ็ตฟิลด์ซ่อน/แสดง
+          toggleFields(); 
         } else {
           alertBox.classList.add('alert-danger');
-          alertBox.innerHTML = '❌ ' + result.message;
+          alertBox.innerHTML = 'ERROR: ' + result.message;
         }
         
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '💾 บันทึกข้อมูลลง Google Sheet';
+        submitBtn.innerHTML = 'บันทึกข้อมูลลงฐานข้อมูล';
       })
       .catch(error => {
         alertBox.classList.remove('d-none', 'alert-success');
         alertBox.classList.add('alert-danger');
-        alertBox.innerHTML = '⚠️ เกิดข้อผิดพลาดทางเทคนิค: ' + error.message;
+        alertBox.innerHTML = 'SYSTEM ERROR: ' + error.message;
         
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '💾 บันทึกข้อมูลลง Google Sheet';
+        submitBtn.innerHTML = 'บันทึกข้อมูลลงฐานข้อมูล';
       });
     };
 
