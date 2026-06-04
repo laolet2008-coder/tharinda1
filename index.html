@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบเบิก-คืนโทรศัพท์</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; padding-top: 30px; font-family: 'Segoe UI', Tahoma, sans-serif; }
+    .card { border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    .header-title { color: #0d6efd; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card p-4">
+          <h3 class="text-center mb-4 header-title">📱 ระบบบันทึกการเบิก-คืนโทรศัพท์</h3>
+          
+          <form id="phoneForm">
+            <div class="mb-3">
+              <label class="form-label font-weight-bold">ต้องการทำรายการใด?</label>
+              <select class="form-select border-primary" id="type" onchange="toggleFields()" required>
+                <option value="เบิก (Borrow)">🟢 เบิกโทรศัพท์ (Borrow)</option>
+                <option value="คืน (Return)">🔵 คืนโทรศัพท์ (Return)</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">หมายเลขเครื่อง / Serial Number (S/N):</label>
+              <input type="text" class="form-control" id="sn" placeholder="กรอก S/N ของเครื่อง" required>
+            </div>
+
+            <div id="borrowFields">
+              <div class="mb-3">
+                <label class="form-label">ชื่อ-นามสกุล ผู้เบิก:</label>
+                <input type="text" class="form-control" id="name" placeholder="ชื่อผู้ใช้งานเครื่อง">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">รุ่นโทรศัพท์:</label>
+                <input type="text" class="form-control" id="model" placeholder="เช่น iPhone 15 Pro, Samsung S24">
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label">หมายเหตุ / สภาพเครื่อง:</label>
+              <input type="text" class="form-control" id="note" placeholder="เช่น เลนส์กล้องมีรอย หรือ ระบุวัตถุประสงค์">
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2" id="submitBtn">บันทึกข้อมูลลง Google Sheet</button>
+          </form>
+
+          <div id="alertBox" class="alert mt-3 d-none text-center" role="alert"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ฟังก์ชันเปิด/ปิดฟิลด์ตามประเภทรายการที่เลือก
+    function toggleFields() {
+      const type = document.getElementById('type').value;
+      const borrowFields = document.getElementById('borrowFields');
+      const nameInput = document.getElementById('name');
+      const modelInput = document.getElementById('model');
+
+      if (type === 'คืน (Return)') {
+        borrowFields.style.display = 'none';
+        nameInput.removeAttribute('required');
+        modelInput.removeAttribute('required');
+      } else {
+        borrowFields.style.display = 'block';
+        nameInput.setAttribute('required', '');
+        modelInput.setAttribute('required', '');
+      }
+    }
+
+    // ทำงานตอนกดส่งฟอร์ม
+    document.getElementById('phoneForm').onsubmit = function(e) {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('submitBtn');
+      const alertBox = document.getElementById('alertBox');
+      
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'กำลังบันทึกข้อมูล...';
+      alertBox.classList.add('d-none');
+
+      const data = {
+        type: document.getElementById('type').value,
+        sn: document.getElementById('sn').value,
+        name: document.getElementById('name').value,
+        model: document.getElementById('model').value,
+        note: document.getElementById('note').value
+      };
+
+      // เรียกฟังก์ชันใน Code.gs
+      google.script.run
+        .withSuccessHandler(function(response) {
+          alertBox.classList.remove('d-none', 'alert-success', 'alert-danger');
+          
+          if (response.status === "success") {
+            alertBox.classList.add('alert-success');
+            alertBox.innerText = response.message;
+            document.getElementById('phoneForm').reset();
+            toggleFields(); // รีเซ็ตฟิลด์ซ่อน/แสดง
+          } else {
+            alertBox.classList.add('alert-danger');
+            alertBox.innerText = response.message;
+          }
+          
+          submitBtn.disabled = false;
+          submitBtn.innerText = 'บันทึกข้อมูลลง Google Sheet';
+        })
+        .withFailureHandler(function(error) {
+          alertBox.classList.remove('d-none', 'alert-success');
+          alertBox.classList.add('alert-danger');
+          alertBox.innerText = 'ระบบขัดข้อง: ' + error;
+          
+          submitBtn.disabled = false;
+          submitBtn.innerText = 'บันทึกข้อมูลลง Google Sheet';
+        })
+        .recordAction(data);
+    };
+
+    // รันครั้งแรกเผื่อฟอร์มค้าง
+    toggleFields();
+  </script>
+</body>
+</html>
